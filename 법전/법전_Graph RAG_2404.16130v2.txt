@@ -1,0 +1,19 @@
+From Local to Global: A GraphRAG Approach to Query-Focused Summarization
+
+Darren Edge, Ha Trinh, Newman Cheng, Joshua Bradley, Alex Chao, Apurva Mody, Steven Truitt, Dasha Metropolitansky, Robert Osazuwa Ness, Jonathan Larson — Microsoft Research
+
+Abstract: The use of retrieval-augmented generation (RAG) to retrieve relevant information from an external knowledge source enables large language models (LLMs) to answer questions over private and/or previously unseen document collections. However, RAG fails on global questions directed at an entire text corpus, such as "What are the main themes in the dataset?" since this is inherently a query-focused summarization (QFS) task, rather than an explicit retrieval task.
+
+Prior QFS methods, meanwhile, fail to scale to the quantities of text indexed by typical RAG systems. To combine the strengths of these contrasting methods, we propose a Graph RAG approach to question answering over private text corpora that scales with both the generality of user questions and the quantity of source text to be indexed.
+
+GraphRAG Key Concepts:
+
+Community detection: Leiden algorithm applied to knowledge graph to detect node communities at multiple granularity levels
+
+Graph indexing: LLM-derived knowledge graph entities and relationships, summaries, and community reports
+
+Global search: Map-reduce approach using community summaries for global questions
+
+Local search: Uses entity-anchored search combining structured (graph) and unstructured data
+
+Results show that GraphRAG substantially outperforms naive RAG on both comprehensiveness and diversity across global summarization tasks, while maintaining comparable performance on local tasks.
