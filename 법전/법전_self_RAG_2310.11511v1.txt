@@ -1,0 +1,31 @@
+SELF-RAG: LEARNING TO RETRIEVE, GENERATE, AND CRITIQUE THROUGH SELF-REFLECTION
+
+Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, Hannaneh Hajishirzi — University of Washington, IBM Research AI
+
+Abstract: Despite their remarkable capabilities, large language models (LLMs) often produce responses containing factual inaccuracies due to their sole reliance on the parametric knowledge they encapsulate. Retrieval-Augmented Generation (RAG), an ad hoc approach that augments LMs with retrieval of relevant knowledge, decreases such issues.
+
+However, indiscriminately retrieving and incorporating a fixed number of retrieved passages, regardless of whether retrieval is necessary, or passages are relevant, diminishes LM versatility or can lead to unhelpful responses.
+
+Self-RAG Framework:
+
+Adaptive retrieval: Retrieves on demand, when retrieval is necessary
+
+ISREL (Is Relevant): Assesses if retrieved passage is relevant to query
+
+ISSUP (Is Supported): Evaluates if output is supported by retrieved passage
+
+ISUSE (Is Useful): Determines if output is useful for answering the query
+
+Critique tokens: Special tokens [Retrieve], [IsREL], [IsSUP], [IsUSE] guide generation
+
+Key Results:
+
+Self-RAG significantly outperforms standard RAG and LLMs on tasks requiring factual accuracy
+
+Outperforms ChatGPT on open-domain QA, reasoning, and long-form generation tasks
+
+Enables inference-time customization of retrieval frequency and citation quality
+
+PRO부동산 AI 적용 포인트:
+
+Self-RAG의 자가 검증 원리를 블로그 원고 작성에 적용 — 숫자와 법령 인용 시 소스 검증 필수

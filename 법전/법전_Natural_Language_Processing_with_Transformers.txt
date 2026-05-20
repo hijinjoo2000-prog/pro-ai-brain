@@ -1,0 +1,23 @@
+Natural Language Processing with Transformers: Building Language Applications with Hugging Face
+
+Authors: Lewis Tunstall, Leandro von Werra, Thomas Wolf (Hugging Face)
+
+핵심 내용 요약:
+
+Chapter 1 - Hello Transformers:
+트랜스포머(Transformer) 아키텍처는 Attention Is All You Need(2017) 논문에서 소개된 이후 NLP 분야를 완전히 바꾸었습니다. BERT, GPT, T5 등 현대 LLM의 근간이 되는 기술입니다.
+
+Chapter 2 - Text Classification:
+텍스트 분류 작업(감성 분석, 토픽 분류 등)에서 Fine-tuning 방법을 사용하면 소량의 레이블 데이터로도 높은 성능을 달성할 수 있습니다.
+
+Chapter 3 - Named Entity Recognition (NER):
+개체명 인식(NER)은 텍스트에서 사람, 장소, 조직 등의 정보를 추출하는 기술로, RAG 시스템의 지식 그래프 구축에 핵심적으로 활용됩니다.
+
+Chapter 8 - Making Transformers Efficient in Production:
+지식 증류(Knowledge Distillation), 양자화(Quantization), 가지치기(Pruning) 기법으로 모델 크기를 줄이면서 성능을 유지하는 방법을 다룹니다.
+
+Chapter 10 - Training Transformers from Scratch:
+커스텀 도메인(예: 법률, 부동산)에 특화된 언어 모델을 처음부터 훈련하는 방법을 설명합니다.
+
+PRO부동산 AI 적용 포인트:
+재개발 전문 용어(관리처분인가, 조합원 지위, 비례율 등)를 NER로 자동 추출하여 더 정확한 RAG 검색에 활용 가능합니다.
