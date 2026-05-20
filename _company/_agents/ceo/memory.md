@@ -11,3 +11,5 @@ _CEO 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰는 
 - [2026-05-20] {   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",   "isSafari": false,   "isChrome": true,   "isFirefox": false,   "pageUrl": "https://www.ezerai.xyz/",   "lastError": "network",   "lastErrorMessage": "Failed to 
 - [2026-05-20] ⚠️ 포트 충돌 가능성 연결 실패가 지속되고 있습니다. 다른 앱이 4825 포트를 점유하고 있을 수 있습니다. 터미널에서 `lsof -nP -iTCP:4825 -sTCP:LISTEN` 로 확인해주세요. 이렇게 하라는데? → 보고서 sessions/2026-05-20T15-15/_report.md
 - [2026-05-20] {   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",   "isSafari": false,   "isChrome": true,   "isFirefox": false,   "pageUrl": "https://www.ezerai.xyz/academy-admission",   "lastError": "network",   "lastErrorMess
+- [2026-05-20] 포트 충돌가능성을 체크하래~~ 아직도 오프라인으로 나오고 연결이 안되네~~ → 보고서 sessions/2026-05-20T15-36/_report.md
+- [2026-05-20] ai에이전트 학교와 연결하려고 하는데, 계속 연결이 안되고, 오프라인상태로 나와 → 보고서 sessions/2026-05-20T15-37/_report.md
