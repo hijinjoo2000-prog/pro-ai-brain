@@ -1,0 +1,55 @@
+{
+  "tasks": [
+    {
+      "id": "20260520161155-80h9",
+      "title": "**Rate Limiting:** IP/User 단위의 요청 제한을 반드시 구현해야 합니다.",
+      "description": "자동 등록 (코다리 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "developer"
+      ],
+      "createdAt": "2026-05-20T16:11:55.355Z",
+      "status": "done",
+      "sessionDir": "2026-05-20T16-04",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-05-20T16-04/_report.md\n- 현빈: 핵심 전환점(Conversion Point) 분석: 매수자가 '카톡 보내기'를 누르기 직전, 공인중개사가 우리 플랫폼의 유료 서비스가 필수적이라\n- Designer: UX/UI 플로우 설계: 네이버 매물 정보가 연동되는 페이지의 와이어프레임(Wireframe)을 제작해 주세요. 일반적인 부동산 사이트처럼 보이\n- Writer: 차별화된 카피라이팅: 네이버나 일반 포털에서 얻기 힘든 '법률 전문성'과 '논리적 모순 발견 능력'을 강조하는 페이지의 헤드라인(Headline\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 핵심 전환점(Conversion Point) 분석: 매수자가 '카톡 보내기'를 누르기 직전, 공인중개사가 우리 플랫폼의 유료 서비스가 필수적이라고 느끼게 할 수 있는 구체적인 '정보의 결핍(Information Gap",
+      "completedAt": "2026-05-20T16:19:35.237Z"
+    },
+    {
+      "id": "20260520161155-b5eo",
+      "title": "**Logging:** 모든 트래킹 시도와 실패 케이스를 별도의 감사 로그(Audit Log)에 기록하고 모니터링해야 합니다.",
+      "description": "자동 등록 (코다리 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "developer"
+      ],
+      "createdAt": "2026-05-20T16:11:55.356Z",
+      "status": "done",
+      "sessionDir": "2026-05-20T16-04",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-05-20T16-04/_report.md\n- 현빈: 핵심 전환점(Conversion Point) 분석: 매수자가 '카톡 보내기'를 누르기 직전, 공인중개사가 우리 플랫폼의 유료 서비스가 필수적이라\n- Designer: UX/UI 플로우 설계: 네이버 매물 정보가 연동되는 페이지의 와이어프레임(Wireframe)을 제작해 주세요. 일반적인 부동산 사이트처럼 보이\n- Writer: 차별화된 카피라이팅: 네이버나 일반 포털에서 얻기 힘든 '법률 전문성'과 '논리적 모순 발견 능력'을 강조하는 페이지의 헤드라인(Headline\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 핵심 전환점(Conversion Point) 분석: 매수자가 '카톡 보내기'를 누르기 직전, 공인중개사가 우리 플랫폼의 유료 서비스가 필수적이라고 느끼게 할 수 있는 구체적인 '정보의 결핍(Information Gap",
+      "completedAt": "2026-05-20T16:19:35.237Z"
+    },
+    {
+      "id": "20260520161155-w2e6",
+      "title": "**DLQ:** 메시지 큐에서 처리 실패한 이벤트는 DLQ로 격리하여, 주기적인 검토가 가능하도록 시스템화합니다.",
+      "description": "자동 등록 (코다리 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "developer"
+      ],
+      "createdAt": "2026-05-20T16:11:55.356Z",
+      "status": "done",
+      "sessionDir": "2026-05-20T16-04",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-05-20T16-04/_report.md\n- 현빈: 핵심 전환점(Conversion Point) 분석: 매수자가 '카톡 보내기'를 누르기 직전, 공인중개사가 우리 플랫폼의 유료 서비스가 필수적이라\n- Designer: UX/UI 플로우 설계: 네이버 매물 정보가 연동되는 페이지의 와이어프레임(Wireframe)을 제작해 주세요. 일반적인 부동산 사이트처럼 보이\n- Writer: 차별화된 카피라이팅: 네이버나 일반 포털에서 얻기 힘든 '법률 전문성'과 '논리적 모순 발견 능력'을 강조하는 페이지의 헤드라인(Headline\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 💼 현빈 _(비즈니스 전략가 · Head of Business)_\n> 📋 **지시**: 핵심 전환점(Conversion Point) 분석: 매수자가 '카톡 보내기'를 누르기 직전, 공인중개사가 우리 플랫폼의 유료 서비스가 필수적이라고 느끼게 할 수 있는 구체적인 '정보의 결핍(Information Gap",
+      "completedAt": "2026-05-20T16:19:35.238Z"
+    }
+  ]
+}
