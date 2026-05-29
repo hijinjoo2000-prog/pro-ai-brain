@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VVIP 재개발 양도소득세 마스터 계산기</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;800&display=swap');
+        
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-input: #1e293b;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --primary: #3b82f6; /* Blue */
+            --primary-hover: #2563eb;
+            --accent: #10b981; /* Emerald */
+            --accent-warn: #f59e0b; /* Amber */
+            --accent-danger: #ef4444; /* Red */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', sans-serif;
+            background: radial-gradient(circle at top left, #1e1b4b, var(--bg-dark));
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            padding: 30px 0;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            color: var(--text-sub);
+        }
+
+        .container {
+            display: flex;
+            width: 1300px;
+            max-width: 95%;
+            gap: 30px;
+            align-items: flex-start;
+            margin-bottom: 50px;
+        }
+
+        /* Form Area */
+        .input-panel {
+            flex: 0 0 400px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-sub);
+        }
+
+        .input-group input[type="date"],
+        .input-group input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 16px;
+            font-family: 'Pretendard', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .radio-group label {
+            flex: 1;
+            text-align: center;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .radio-group input {
+            display: none;
+        }
+
+        .radio-group input:checked + label {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 25px 0;
+        }
+
+        /* Result Area */
+        .result-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--primary);
+        }
+        
+        .card.card-green::before { background: var(--accent); }
+        .card.card-orange::before { background: var(--accent-warn); }
+        .card.card-red::before { background: var(--accent-danger); }
+
+        .card h2 {
+            margin: 0 0 20px 0;
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .data-box {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .data-label {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+        }
+
+        .data-value {
+            font-size: 24px;
+            font-weight: 800;
+        }
+        
+        .val-red { color: #fca5a5; }
+        .val-blue { color: #93c5fd; }
+        .val-green { color: #6ee7b7; }
+        .val-gold { color: #fde047; }
+
+        /* Step visualizer */
+        .step-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .step-item {
+            text-align: center;
+            flex: 1;
+        }
+        .step-arrow {
+            color: var(--text-sub);
+            font-size: 24px;
+        }
+
+        .final-tax {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(to right, #fde047, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .btn-export {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: var(--text-sub);
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <div class="header">
+        <h1>👑 VVIP 재개발 양도소득세 정밀 계산기</h1>
+        <p>복잡한 재개발(입주권/신축) 양도차익 및 장기보유특별공제를 완벽하게 시각화합니다.</p>
+    </div>
+
+    <div class="container">
+        <!-- Left: Inputs -->
+        <div class="input-panel">
+            <div class="radio-group">
+                <input type="radio" id="type_ticket" name="sell_type" value="ticket" checked>
+                <label for="type_ticket">입주권 상태 매도</label>
+                
+                <input type="radio" id="type_apt" name="sell_type" value="apt">
+                <label for="type_apt">완공 후 신축 매도</label>
+            </div>
+
+            <div class="input-group">
+                <label>기존 주택 취득일</label>
+                <input type="date" id="date_acq" value="2015-05-01">
+            </div>
+            <div class="input-group">
+                <label>관리처분계획 인가일</label>
+                <input type="date" id="date_auth" value="2020-08-15">
+            </div>
+            <div class="input-group" id="group_completion" style="display: none;">
+                <label>신축 아파트 완공일 (준공일)</label>
+                <input type="date" id="date_comp" value="2024-10-01">
+            </div>
+            <div class="input-group">
+                <label>양도일 (매도일)</label>
+                <input type="date" id="date_sell" value="2026-06-01">
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="input-group">
+                <label>양도가액 (매도가) <span style="font-weight:normal;color:#94a3b8;">(단위: 억 원)</span></label>
+                <input type="number" id="val_sell" value="20.0" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>종전 주택 취득가액 <span style="font-weight:normal;color:#94a3b8;">(단위: 억 원)</span></label>
+                <input type="number" id="val_acq" value="4.0" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>권리가액 <span style="font-weight:normal;color:#94a3b8;">(단위: 억 원)</span></label>
+                <input type="number" id="val_right" value="7.5" step="0.1">
+            </div>
+            <div class="input-group" id="group_paid_fee">
+                <label>기납부 분담금 (양도일까지 낸 돈) <span style="font-weight:normal;color:#94a3b8;">(단위: 억 원)</span></label>
+                <input type="number" id="val_paid_fee" value="1.0" step="0.1">
+            </div>
+            <div class="input-group" id="group_total_fee" style="display: none;">
+                <label>총 납부 분담금 (청산금) <span style="font-weight:normal;color:#94a3b8;">(단위: 억 원)</span></label>
+                <input type="number" id="val_total_fee" value="3.0" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>필요경비 (중개보수 등) <span style="font-weight:normal;color:#94a3b8;">(단위: 억 원)</span></label>
+                <input type="number" id="val_exp" value="0.2" step="0.01">
+            </div>
+
+            <button class="btn-export" onclick="exportImage('dashboard', '재개발_양도세_브리핑.png')">📸 브리핑 대시보드 캡처</button>
+        </div>
+
+        <!-- Right: Results -->
+        <div class="result-panel" id="dashboard">
+            <!-- Card 1: Holding Period -->
+            <div class="card card-green">
+                <h2>⏱️ 보유기간 및 공제율 산정 (일반 장특공제)</h2>
+                <div class="grid-2">
+                    <div class="data-box">
+                        <div class="data-label">종전 주택 보유기간 (취득일 ~ <span id="label_term1_end">관리처분일</span>)</div>
+                        <div class="data-value val-green" id="out_years1">0년 (0%)</div>
+                    </div>
+                    <div class="data-box" id="box_years2" style="opacity: 0.3;">
+                        <div class="data-label">신축 아파트 보유기간 (완공일 ~ 양도일)</div>
+                        <div class="data-value val-green" id="out_years2">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Gain Split -->
+            <div class="card card-orange">
+                <h2>⚖️ 양도차익 분리 계산 (핵심)</h2>
+                <p style="color:var(--text-sub); margin-top:-15px; margin-bottom:20px; font-size:14px;">재개발은 종전부동산 차익과 이후 발생한 차익을 분리하여 장특공제를 다르게 적용합니다.</p>
+                <div class="step-flow">
+                    <div class="step-item data-box">
+                        <div class="data-label">종전부동산 양도차익</div>
+                        <div class="data-value val-red" id="out_gain1">0.00억</div>
+                        <div style="font-size:12px; color:#94a3b8; margin-top:5px;">(권리가액 - 취득가액 - 경비)</div>
+                    </div>
+                    <div class="step-arrow">➕</div>
+                    <div class="step-item data-box">
+                        <div class="data-label" id="label_gain2">입주권 양도차익</div>
+                        <div class="data-value val-blue" id="out_gain2">0.00억</div>
+                        <div style="font-size:12px; color:#94a3b8; margin-top:5px;" id="desc_gain2">(양도가 - 권리가 - 기납부분담금)</div>
+                    </div>
+                    <div class="step-arrow">🟰</div>
+                    <div class="step-item data-box" style="border-color: var(--accent-warn);">
+                        <div class="data-label">총 양도차익</div>
+                        <div class="data-value val-gold" id="out_gain_total">0.00억</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Deduction & Tax Base -->
+            <div class="card">
+                <h2>📉 장기보유특별공제 및 과세표준</h2>
+                <div class="grid-2">
+                    <div class="data-box">
+                        <div class="data-label">장기보유특별공제 합계</div>
+                        <div class="data-value val-green" id="out_deduction">- 0.00억</div>
+                        <div style="font-size:12px; color:#94a3b8; margin-top:5px;" id="desc_ded">종전분(0억) + 신축분(0억)</div>
+                    </div>
+                    <div class="data-box">
+                        <div class="data-label">양도소득 과세표준 (기본공제 250만 반영)</div>
+                        <div class="data-value val-red" id="out_taxbase">0.00억</div>
+                        <div style="font-size:12px; color:#94a3b8; margin-top:5px;">세율이 곱해지는 진짜 기준 금액</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Final Tax -->
+            <div class="card card-red">
+                <h2>💸 최종 예상 양도소득세</h2>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <div>
+                        <div style="color:var(--text-sub); font-size:16px;">적용 최고 세율: <span id="out_rate" style="color:white; font-weight:bold;">0%</span> (누진공제 <span id="out_prog">0</span>만)</div>
+                        <div style="color:var(--text-sub); font-size:16px; margin-top:5px;">지방소득세(10%) 포함</div>
+                    </div>
+                    <div class="final-tax" id="out_final_tax">0원</div>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                ※ 본 계산기는 분담금을 납부하는 일반적인 재개발/재건축 사례를 가정한 기본 계산 원리 안내용입니다.<br>
+                ※ 세부 요건(1가구 1주택 비과세, 다주택 중과, 특례 등)에 따라 결과가 크게 달라질 수 있으므로 반드시 세무사와 상담하십시오.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const els = {
+            radios: document.querySelectorAll('input[name="sell_type"]'),
+            g_comp: document.getElementById('group_completion'),
+            g_paid: document.getElementById('group_paid_fee'),
+            g_total: document.getElementById('group_total_fee'),
+            
+            d_acq: document.getElementById('date_acq'),
+            d_auth: document.getElementById('date_auth'),
+            d_comp: document.getElementById('date_comp'),
+            d_sell: document.getElementById('date_sell'),
+            
+            v_sell: document.getElementById('val_sell'),
+            v_acq: document.getElementById('val_acq'),
+            v_right: document.getElementById('val_right'),
+            v_paid: document.getElementById('val_paid_fee'),
+            v_total: document.getElementById('val_total_fee'),
+            v_exp: document.getElementById('val_exp'),
+        };
+
+        // Event Listeners
+        els.radios.forEach(r => r.addEventListener('change', toggleType));
+        const allInputs = document.querySelectorAll('input');
+        allInputs.forEach(i => {
+            i.addEventListener('input', () => {
+                saveData();
+                calculate();
+            });
+        });
+
+        function toggleType() {
+            const isTicket = document.getElementById('type_ticket').checked;
+            if (isTicket) {
+                els.g_comp.style.display = 'none';
+                els.g_paid.style.display = 'block';
+                els.g_total.style.display = 'none';
+                
+                document.getElementById('label_term1_end').innerText = '관리처분일';
+                document.getElementById('box_years2').style.opacity = '0.3';
+                document.getElementById('label_gain2').innerText = '입주권 양도차익';
+                document.getElementById('desc_gain2').innerText = '(양도가 - 권리가 - 기납부분담금)';
+            } else {
+                els.g_comp.style.display = 'block';
+                els.g_paid.style.display = 'none';
+                els.g_total.style.display = 'block';
+                
+                document.getElementById('label_term1_end').innerText = '신축 양도일';
+                document.getElementById('box_years2').style.opacity = '1';
+                document.getElementById('label_gain2').innerText = '신축주택 양도차익';
+                document.getElementById('desc_gain2').innerText = '(양도가 - 권리가 - 총분담금)';
+            }
+            calculate();
+        }
+
+        function getYears(start, end) {
+            if (!start || !end) return 0;
+            const s = new Date(start);
+            const e = new Date(end);
+            if (s > e) return 0;
+            let years = e.getFullYear() - s.getFullYear();
+            if (e.getMonth() < s.getMonth() || (e.getMonth() === s.getMonth() && e.getDate() < s.getDate())) {
+                years--;
+            }
+            return Math.max(0, years);
+        }
+
+        function getTaxDetails(base_won) {
+            if (base_won <= 0) return {rate: 0, ded: 0};
+            let rate = 0; let ded = 0;
+            if (base_won <= 14000000) { rate = 0.06; ded = 0; }
+            else if (base_won <= 50000000) { rate = 0.15; ded = 1260000; }
+            else if (base_won <= 88000000) { rate = 0.24; ded = 5760000; }
+            else if (base_won <= 150000000) { rate = 0.35; ded = 15440000; }
+            else if (base_won <= 300000000) { rate = 0.38; ded = 19940000; }
+            else if (base_won <= 500000000) { rate = 0.40; ded = 25940000; }
+            else if (base_won <= 1000000000) { rate = 0.42; ded = 35940000; }
+            else { rate = 0.45; ded = 65940000; }
+            return {rate, ded};
+        }
+
+        function calculate() {
+            const isTicket = document.getElementById('type_ticket').checked;
+            
+            const vSell = (parseFloat(els.v_sell.value) || 0) * 100000000;
+            const vAcq = (parseFloat(els.v_acq.value) || 0) * 100000000;
+            const vRight = (parseFloat(els.v_right.value) || 0) * 100000000;
+            const vPaid = (parseFloat(els.v_paid.value) || 0) * 100000000;
+            const vTotal = (parseFloat(els.v_total.value) || 0) * 100000000;
+            const vExp = (parseFloat(els.v_exp.value) || 0) * 100000000;
+
+            let years1 = 0, years2 = 0;
+            let rate1 = 0, rate2 = 0;
+            let gain1 = 0, gain2 = 0, totalGain = 0;
+            let ded1 = 0, ded2 = 0;
+
+            if (isTicket) {
+                // 입주권 매도
+                years1 = getYears(els.d_acq.value, els.d_auth.value);
+                rate1 = years1 >= 3 ? Math.min(30, years1 * 2) : 0;
+                
+                document.getElementById('out_years1').innerText = `${years1}년 (${rate1}%)`;
+                document.getElementById('out_years2').innerText = `-`;
+
+                gain1 = Math.max(0, vRight - vAcq - vExp);
+                gain2 = Math.max(0, vSell - (vRight + vPaid)); 
+                totalGain = gain1 + gain2;
+
+                ded1 = gain1 * (rate1 / 100);
+                ded2 = 0; // 입주권은 장특공제 없음
+            } else {
+                // 신축 매도
+                years1 = getYears(els.d_acq.value, els.d_sell.value);
+                rate1 = years1 >= 3 ? Math.min(30, years1 * 2) : 0;
+                
+                years2 = getYears(els.d_comp.value, els.d_sell.value);
+                rate2 = years2 >= 3 ? Math.min(30, years2 * 2) : 0;
+
+                document.getElementById('out_years1').innerText = `${years1}년 (${rate1}%)`;
+                document.getElementById('out_years2').innerText = `${years2}년 (${rate2}%)`;
+
+                gain1 = Math.max(0, vRight - vAcq - vExp);
+                totalGain = Math.max(0, vSell - vAcq - vTotal - vExp);
+                gain2 = Math.max(0, totalGain - gain1); // 신축 차익
+
+                ded1 = gain1 * (rate1 / 100);
+                ded2 = gain2 * (rate2 / 100);
+            }
+
+            const totalDed = ded1 + ded2;
+            const income = totalGain - totalDed;
+            const taxBase = Math.max(0, income - 2500000);
+
+            const taxDetails = getTaxDetails(taxBase);
+            const finalTax = (taxBase * taxDetails.rate - taxDetails.ded) * 1.1;
+
+            // UI Updates
+            document.getElementById('out_gain1').innerText = `${(gain1/100000000).toFixed(2)}억`;
+            document.getElementById('out_gain2').innerText = `${(gain2/100000000).toFixed(2)}억`;
+            document.getElementById('out_gain_total').innerText = `${(totalGain/100000000).toFixed(2)}억`;
+
+            document.getElementById('out_deduction').innerText = `- ${(totalDed/100000000).toFixed(2)}억`;
+            document.getElementById('desc_ded').innerText = `종전분(${(ded1/100000000).toFixed(2)}억) + 신축분(${(ded2/100000000).toFixed(2)}억)`;
+
+            document.getElementById('out_taxbase').innerText = `${(taxBase/100000000).toFixed(2)}억`;
+
+            document.getElementById('out_rate').innerText = `${(taxDetails.rate * 100).toFixed(0)}%`;
+            document.getElementById('out_prog').innerText = `${(taxDetails.ded/10000).toLocaleString()}`;
+            
+            if (finalTax > 100000000) {
+                document.getElementById('out_final_tax').innerText = `약 ${(finalTax/100000000).toFixed(2)}억 원`;
+            } else {
+                document.getElementById('out_final_tax').innerText = `약 ${Math.round(finalTax/10000).toLocaleString()}만 원`;
+            }
+        }
+
+        function exportImage(elementId, filename) {
+            const captureArea = document.getElementById(elementId);
+            html2canvas(captureArea, {scale: 2, backgroundColor: '#0f172a'}).then(canvas => {
+                const link = document.createElement('a');
+                link.download = filename;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function saveData() {
+            const data = {};
+            allInputs.forEach(i => {
+                if (i.type === 'radio') {
+                    if(i.checked) data[i.name] = i.value;
+                } else {
+                    data[i.id] = i.value;
+                }
+            });
+            localStorage.setItem('redev_tax_data', JSON.stringify(data));
+        }
+
+        function loadData() {
+            try {
+                const stored = localStorage.getItem('redev_tax_data');
+                if (stored) {
+                    const data = JSON.parse(stored);
+                    allInputs.forEach(i => {
+                        if (i.type === 'radio') {
+                            if (data[i.name] === i.value) i.checked = true;
+                        } else if (data[i.id] !== undefined) {
+                            i.value = data[i.id];
+                        }
+                    });
+                }
+            } catch (e) {}
+        }
+
+        window.onload = () => {
+            loadData();
+            toggleType();
+        };
+    </script>
+</body>
+</html>
