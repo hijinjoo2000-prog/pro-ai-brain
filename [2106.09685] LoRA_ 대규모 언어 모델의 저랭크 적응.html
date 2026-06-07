@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://arxiv.org/abs/2106.09685 -->
+<html lang="ko" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  <title>[2106.09685] LoRA: 대규모 언어 모델의 저랭크 적응</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://arxiv.org/static/browse/0.3.4/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://arxiv.org/static/browse/0.3.4/images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://arxiv.org/static/browse/0.3.4/images/icons/favicon-16x16.png">
+  <link rel="manifest" href="https://arxiv.org/static/browse/0.3.4/images/icons/site.webmanifest">
+  <link rel="mask-icon" href="https://arxiv.org/static/browse/0.3.4/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" type="text/css" media="screen" href="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/arXiv.css">
+  <link rel="stylesheet" type="text/css" media="print" href="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/arXiv-print.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/browse_search.css">
+  <script language="javascript" src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/accordion.js"></script>
+  <script language="javascript" src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/optin-modal.js"></script>
+  
+  <link rel="canonical" href="https://arxiv.org/abs/2106.09685">
+  <meta name="description" content="Abstract page for arXiv paper 2106.09685: LoRA: Low-Rank Adaptation of Large Language Models"><meta property="og:type" content="website">
+<meta property="og:site_name" content="arXiv.org">
+<meta property="og:title" content="LoRA: Low-Rank Adaptation of Large Language Models">
+<meta property="og:url" content="https://arxiv.org/abs/2106.09685v2">
+<meta property="og:image" content="/static/browse/0.3.4/images/arxiv-logo-fb.png">
+<meta property="og:image:secure_url" content="/static/browse/0.3.4/images/arxiv-logo-fb.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="700">
+<meta property="og:image:alt" content="arXiv logo">
+<meta property="og:description" content="An important paradigm of natural language processing consists of large-scale pre-training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full fine-tuning, which retrains all model parameters, becomes less feasible. Using GPT-3 175B as an example -- deploying independent instances of fine-tuned models, each with 175B parameters, is prohibitively expensive. We propose Low-Rank Adaptation, or LoRA, which freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable parameters for downstream tasks. Compared to GPT-3 175B fine-tuned with Adam, LoRA can reduce the number of trainable parameters by 10,000 times and the GPU memory requirement by 3 times. LoRA performs on-par or better than fine-tuning in model quality on RoBERTa, DeBERTa, GPT-2, and GPT-3, despite having fewer trainable parameters, a higher training throughput, and, unlike adapters, no additional inference latency. We also provide an empirical investigation into rank-deficiency in language model adaptation, which sheds light on the efficacy of LoRA. We release a package that facilitates the integration of LoRA with PyTorch models and provide our implementations and model checkpoints for RoBERTa, DeBERTa, and GPT-2 at https://github.com/microsoft/LoRA.">
+<meta name="twitter:site" content="@arxiv">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LoRA: Low-Rank Adaptation of Large Language Models">
+<meta name="twitter:description" content="An important paradigm of natural language processing consists of large-scale pre-training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full...">
+<meta name="twitter:image" content="https://static.arxiv.org/icons/twitter/arxiv-logo-twitter-square.png">
+<meta name="twitter:image:alt" content="arXiv logo">
+  <link rel="stylesheet" media="screen" type="text/css" href="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/tooltip.css"><link rel="stylesheet" media="screen" type="text/css" href="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/bibex.css">  <script src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/mathjaxToggle.min.js" type="text/javascript"></script>  <script src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/jquery-latest.min.js" type="text/javascript"></script>
+  <script src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/js.cookie.min.js" type="text/javascript"></script>
+  <script src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/purify.min.js"></script>
+  <script src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/toggle-labs.js" type="text/javascript"></script>
+  <script src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/cite.js" type="text/javascript"></script><meta name="citation_title" content="LoRA: Low-Rank Adaptation of Large Language Models"><meta name="citation_author" content="Hu, Edward J."><meta name="citation_author" content="Shen, Yelong"><meta name="citation_author" content="Wallis, Phillip"><meta name="citation_author" content="Allen-Zhu, Zeyuan"><meta name="citation_author" content="Li, Yuanzhi"><meta name="citation_author" content="Wang, Shean"><meta name="citation_author" content="Wang, Lu"><meta name="citation_author" content="Chen, Weizhu"><meta name="citation_date" content="2021/06/17"><meta name="citation_online_date" content="2021/10/16"><meta name="citation_pdf_url" content="https://arxiv.org/pdf/2106.09685"><meta name="citation_arxiv_id" content="2106.09685"><meta name="citation_abstract" content="An important paradigm of natural language processing consists of large-scale pre-training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full fine-tuning, which retrains all model parameters, becomes less feasible. Using GPT-3 175B as an example -- deploying independent instances of fine-tuned models, each with 175B parameters, is prohibitively expensive. We propose Low-Rank Adaptation, or LoRA, which freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable parameters for downstream tasks. Compared to GPT-3 175B fine-tuned with Adam, LoRA can reduce the number of trainable parameters by 10,000 times and the GPU memory requirement by 3 times. LoRA performs on-par or better than fine-tuning in model quality on RoBERTa, DeBERTa, GPT-2, and GPT-3, despite having fewer trainable parameters, a higher training throughput, and, unlike adapters, no additional inference latency. We also provide an empirical investigation into rank-deficiency in language model adaptation, which sheds light on the efficacy of LoRA. We release a package that facilitates the integration of LoRA with PyTorch models and provide our implementations and model checkpoints for RoBERTa, DeBERTa, and GPT-2 at https://github.com/microsoft/LoRA.">
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  messageStyle: 'none',
+  extensions: ['tex2jax.js'],
+  jax: ['input/TeX','output/HTML-CSS'],
+  tex2jax: {
+    inlineMath: [['$','$']],
+    processEscapes: true,
+    ignoreClass: '.*',
+    processClass: 'mathjax.*',
+  },
+  TeX: {
+    extensions: ['AMSmath.js', 'AMSsymbols.js', 'noErrors.js'],
+    noErrors: {
+      inlineDelimiters: ['$','$'],
+      multiLine: false,
+      style: {
+        'font-size': 'normal',
+        'border': ''
+      }
+    }
+  }
+});</script><script type="text/javascript" src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/MathJax.js"></script><link type="text/css" rel="stylesheet" charset="UTF-8" href="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/m=el_main_css"><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.resize-observer[data-v-8859cc6c]{position:absolute;top:0;left:0;z-index:-1;width:100%;height:100%;border:none;background-color:transparent;pointer-events:none;display:block;overflow:hidden;opacity:0}.resize-observer[data-v-8859cc6c] object{display:block;position:absolute;top:0;left:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1}</style><style type="text/css">x-vue-echarts{display:flex;flex-direction:column;width:100%;height:100%;min-width:0}
+.vue-echarts-inner{flex-grow:1;min-width:0;width:auto!important;height:auto!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style></head>
+
+<body class="with-cu-identity" ap-style=""><div id="MathJax_Message" style="display: none;"></div>
+  
+  
+  <div class="flex-wrap-footer">
+    <header>
+      <a href="https://arxiv.org/abs/2106.09685#content" class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">본문으로 바로가기</font></font></a>
+      <!-- start desktop header -->
+      <div class="columns is-vcentered is-hidden-mobile" id="cu-identity">
+        <div class="column" id="cu-logo">
+          <a href="https://www.cornell.edu/"><img src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/cornell-reduced-white-SMALL.svg" alt="코넬 대학교"></a>
+        </div><!-- /from April 7 at 1:00 AM to May 29 at 21:40 --><!-- /from May 2 at 1:00 AM to May 5 at 9:45 AM --><div class="column banner-minimal">
+            <a href="https://tech.cornell.edu/arxiv/" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">arXiv가 독립적인 비영리 단체로 전환하는 과정에 대해 알아보세요.</font></font></a>
+        </div><div class="column" id="support-ack">
+          <span id="support-ack-url"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">저희는 사이먼스 재단, </font></font><a href="https://info.arxiv.org/about/ourmembers.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">회원 기관</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> 및 모든 기부자 여러분의 지원에 깊이 감사드립니다.</font></font></span>
+          <a href="https://info.arxiv.org/about/donate.html" class="btn-header-donate"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">기부하세요</font></font></a>
+        </div>
+      </div>
+
+      <div id="header" class="is-hidden-mobile">
+<a aria-hidden="true" tabindex="-1" href="https://arxiv.org/IgnoreMe"></a>
+  <div class="header-breadcrumbs is-hidden-mobile">
+    <a href="https://arxiv.org/"><img src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/arxiv-logo-one-color-white.svg" alt="arxiv 로고" style="height:40px;"></a> <span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">&gt;</font></font></span> <a href="https://arxiv.org/list/cs/recent"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">cs</font></font></a> <span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">&gt;</font></font></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">arXiv:2106.09685
+  </font></font></div>
+
+        <div class="columns is-vcentered is-mobile" style="justify-content: flex-end;">
+        </div>
+
+          <div class="search-block level-right">
+    <form class="level-item mini-search" method="GET" action="https://arxiv.org/search">
+      <div class="field has-addons">
+        <div class="control">
+          <input class="input is-small" type="text" name="query" placeholder="찾다..." aria-label="검색어 또는 검색어들">
+          <p class="help"><a href="https://info.arxiv.org/help"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">도움말</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> | </font></font><a href="https://arxiv.org/search/advanced"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">고급 검색</font></font></a></p>
+        </div>
+        <div class="control">
+          <div class="select is-small">
+            <select name="searchtype" aria-label="검색할 필드">
+              <option value="all" selected="selected"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">모든 필드</font></font></option>
+              <option value="title"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">제목</font></font></option>
+              <option value="author"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">작가</font></font></option>
+              <option value="abstract"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">추상적인</font></font></option>
+              <option value="comments"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">댓글</font></font></option>
+              <option value="journal_ref"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">저널 참조</font></font></option>
+              <option value="acm_class"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ACM 분류</font></font></option>
+              <option value="msc_class"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">MSC 분류</font></font></option>
+              <option value="report_num"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">보고서 번호</font></font></option>
+              <option value="paper_id"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">arXiv 식별자</font></font></option>
+              <option value="doi"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DOI</font></font></option>
+              <option value="orcid"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ORCID</font></font></option>
+              <option value="author_id"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">arXiv 저자 ID</font></font></option>
+              <option value="help"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">도움말 페이지</font></font></option>
+              <option value="full_text"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">전문</font></font></option>
+            </select>
+          </div>
+        </div>
+        <input type="hidden" name="source" value="header">
+        <button class="button is-small is-cul-darker"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">찾다</font></font></button>
+      </div>
+    </form>
+  </div>
+     </div><!-- /end desktop header -->
+
+      <div class="mobile-header">
+        <div class="columns is-mobile">
+          <div class="column logo-arxiv"><a href="https://arxiv.org/"><img src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/arxiv-logomark-small-white.svg" alt="arXiv 로고" style="height:60px;"></a></div>
+          <div class="column logo-cornell"><a href="https://www.cornell.edu/">
+            <picture>
+              <source media="(min-width: 501px)" srcset="/static/browse/0.3.4/images/icons/cu/cornell-reduced-white-SMALL.svg  400w" sizes="400w">
+              <source srcset="/static/browse/0.3.4/images/icons/cu/cornell_seal_simple_black.svg 2x">
+              <img src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/cornell-reduced-white-SMALL.svg" alt="코넬 대학교 로고">
+            </picture>
+          </a></div>
+          <div class="column nav" id="toggle-container" role="menubar">
+            <button class="toggle-control"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon filter-white"><title>open search</title><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path></svg></button>
+            <div class="mobile-toggle-block toggle-target">
+              <form class="mobile-search-form" method="GET" action="https://arxiv.org/search">
+                <div class="field has-addons">
+                  <input class="input" type="text" name="query" placeholder="찾다..." aria-label="검색어 또는 검색어들">
+                  <input type="hidden" name="source" value="header">
+                  <input type="hidden" name="searchtype" value="all">
+                  <button class="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">가다</font></font></button>
+                </div>
+              </form>
+            </div>
+
+            <button class="toggle-control"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon filter-white" role="menu"><title>open navigation menu</title><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg></button>
+            <div class="mobile-toggle-block toggle-target">
+              <nav class="mobile-menu" aria-labelledby="mobilemenulabel">
+                <h2 id="mobilemenulabel"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">바로가기 링크</font></font></h2>
+                <ul>
+                    <li><a href="https://arxiv.org/login"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">로그인</font></font></a></li>
+                    <li><a href="https://info.arxiv.org/help"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">도움말 페이지</font></font></a></li>
+                    <li><a href="https://info.arxiv.org/about"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">에 대한</font></font></a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div><!-- /end mobile-header -->
+    </header>
+
+    <main>
+      <div id="content">
+<!--
+rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+    <rdf:Description
+        rdf:about="/abs/2106.09685"
+        dc:identifier="/abs/2106.09685"
+        dc:title="LoRA: Low-Rank Adaptation of Large Language Models"
+        trackback:ping="/trackback/2106.09685" />
+    </rdf:RDF>
+--><div id="abs-outer">
+
+  <div class="leftcolumn">
+    <div class="subheader">
+      <h1><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">컴퓨터 과학 &gt; 계산 및 언어</font></font></h1>
+    </div>
+
+    <div class="header-breadcrumbs-mobile">
+      <strong><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">arXiv:2106.09685</font></font></strong><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> (cs)
+    </font></font></div>
+<link rel="stylesheet" type="text/css" href="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/abs.css">
+<div id="content-inner">
+  <div id="abs">
+    <div class="dateline"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+  [제출일: 2021년 6월 17일 ( </font></font><a href="https://arxiv.org/abs/2106.09685v1"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">v1</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> ), 최종 수정일: 2021년 10월 16일 (본 버전, v2)]</font></font></div>
+    <h1 class="title mathjax"><span class="descriptor"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">제목:</font></font></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">LoRA: 대규모 언어 모델의 저랭크 적응</font></font></h1>
+    <div class="authors"><span class="descriptor"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">저자:</font></font></span><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Hu,+E+J" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Edward J. Hu</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> , </font></font><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Shen,+Y" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Yelong Shen</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> , </font></font><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wallis,+P" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Phillip Wallis</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> , </font></font><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Allen-Zhu,+Z" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Zeyuan Allen-Zhu</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> , </font></font><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Li,+Y" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Yuanzhi Li</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> , </font></font><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wang,+S" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Shean Wang</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> , </font></font><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wang,+L" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Lu Wang</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> , </font></font><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Chen,+W" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Weizhu Chen</font></font></a></div>            <div id="download-button-info" hidden=""><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Edward J. Hu 외 7명이 저술한 "LoRA: Low-Rank Adaptation of Large Language Models"라는 제목의 논문 PDF 파일을 보려면 여기를 클릭하십시오.</font></font></div>
+    <a class="mobile-submission-download" href="https://arxiv.org/pdf/2106.09685"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">PDF 보기</font></font></a>
+    <a class="mobile-submission-download" href="https://arxiv.org/html/2106.09685v2"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">HTML (실험적 기능)</font></font></a>
+
+
+
+    <blockquote class="abstract mathjax">
+            <span class="descriptor"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">추상적인:</font></font></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">자연어 처리의 중요한 패러다임은 일반 도메인 데이터에 대한 대규모 사전 학습과 특정 작업 또는 도메인에 대한 적응으로 구성됩니다. 대규모 모델을 사전 학습할수록 모든 모델 매개변수를 재학습하는 완전한 미세 조정은 점점 더 어려워집니다. 예를 들어 GPT-3 175B의 경우, 각각 175B개의 매개변수를 가진 미세 조정된 모델의 독립적인 인스턴스를 배포하는 것은 비용이 너무 많이 듭니다. 본 논문에서는 사전 학습된 모델의 가중치를 고정하고 학습 가능한 랭크 분해 행렬을 Transformer 아키텍처의 각 레이어에 주입하는 저랭크 적응(Low-Rank Adaptation, LoRA) 기법을 제안합니다. 이를 통해 하위 작업에 필요한 학습 가능한 매개변수 수를 크게 줄일 수 있습니다. Adam으로 미세 조정된 GPT-3 175B와 비교했을 때, LoRA는 학습 가능한 매개변수 수를 10,000배, GPU 메모리 요구량을 3배까지 줄일 수 있습니다. LoRA는 RoBERTa, DeBERTa, GPT-2, GPT-3 데이터셋에서 모델 품질 측면에서 파인튜닝과 동등하거나 더 나은 성능을 보여줍니다. LoRA는 학습 가능한 파라미터 수는 더 적고, 학습 처리량은 더 높으며, 어댑터와 달리 추론 지연 시간도 추가되지 않습니다. 또한, 언어 모델 적응에서 발생하는 랭크 결핍 현상에 대한 실증적 연구를 통해 LoRA의 효율성을 입증했습니다. 본 논문에서는 LoRA를 PyTorch 모델과 쉽게 통합할 수 있는 패키지를 제공하며, RoBERTa, DeBERTa, GPT-2에 대한 구현 코드와 모델 체크포인트는 </font></font><a href="https://github.com/microsoft/LoRA" rel="external noopener nofollow" class="link-external link-https"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">다음 URL</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> 에서 확인할 수 있습니다 .
+    </font></font></blockquote>
+
+    <!--CONTEXT-->
+    <div class="metatable">
+      <table summary="Additional metadata">        <tbody><tr>
+          <td class="tablecell label"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">댓글:</font></font></td>
+          <td class="tablecell comments mathjax"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">V2 초안에는 개선된 기준선, GLUE 관련 실험, 어댑터 지연 시간에 대한 추가 정보가 포함되어 있습니다.</font></font></td>
+        </tr>
+<tr>
+          <td class="tablecell label"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">주제:</font></font></td>
+          <td class="tablecell subjects">
+            <span class="primary-subject"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">계산 및 언어학(cs.CL)</font></font></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> ; 인공지능(cs.AI); 기계 학습(cs.LG)</font></font></td>
+        </tr><tr>
+          <td class="tablecell label"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">다음과 같이 인용하십시오:</font></font></td>
+          <td class="tablecell arxivid"><span class="arxivid"><a href="https://arxiv.org/abs/2106.09685"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">arXiv:2106.09685</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> [cs.CL]</font></font></span></td>
+        </tr>
+        <tr>
+          <td class="tablecell label">&nbsp;</td>
+          <td class="tablecell arxividv"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">(또는 </font><span class="arxivid"><a href="https://arxiv.org/abs/2106.09685v2"><font dir="auto" style="vertical-align: inherit;">arXiv:2106.09685v2</font></a></span><span class="arxivid"><font dir="auto" style="vertical-align: inherit;"> [cs.CL]</font></span><font dir="auto" style="vertical-align: inherit;"> 에서 이 버전을 참조하십시오.)
+          </font></font><span class="arxivid">
+              <a href="https://arxiv.org/abs/2106.09685v2"><font dir="auto" style="vertical-align: inherit;"></font></a><font dir="auto" style="vertical-align: inherit;"></font></span><font dir="auto" style="vertical-align: inherit;"></font></td>
+        </tr>
+        <tr>
+          <td class="tablecell label">&nbsp;</td>
+          <td class="tablecell arxivdoi">              <a href="https://doi.org/10.48550/arXiv.2106.09685" id="arxiv-doi-link"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">https://doi.org/10.48550/arXiv.2106.09685</font></font></a><div class="button-and-tooltip">
+              <button class="more-info" aria-describedby="more-info-desc-1">
+                <svg height="15" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z" class=""></path></svg>
+                <span class="visually-hidden"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">더 자세히 알아보려면 집중하세요</font></font></span>
+              </button>
+              <!-- tooltip description -->
+              <div role="tooltip" id="more-info-desc-1">
+                <span class="left-corner"></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">                  DataCite를 통해 arXiv에서 발급한 DOI</font></font></div>
+            </div>
+          </td>
+        </tr></tbody></table>
+    </div>
+  </div>
+</div>
+    <div class="submission-history">
+      <h2><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">제출 내역</font></font></h2><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">보낸 사람: Edward J. Hu [ </font></font><a href="https://arxiv.org/show-email/e4479443/2106.09685" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">이메일 보기</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> ]       </font></font><br>            <strong><a href="https://arxiv.org/abs/2106.09685v1" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">[v1]</font></font></a></strong><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> 
+        2021년 6월 17일 목요일 17:37:18 UTC (1,791KB) </font></font><br>
+    <strong><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">[v2]</font></font></strong><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> 
+        2021년 10월 16일 토요일 18:40:34 UTC (896KB)</font></font><br>
+</div>
+  </div>
+  <!--end leftcolumn-->
+<div class="extra-services">    <div class="full-text">
+      <a name="other"></a>
+      <span class="descriptor"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">전문 링크:</font></font></span>
+      <h2><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">접근 논문:</font></font></h2>
+      <ul>
+  <div id="download-button-info" hidden=""><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+Edward J. Hu 외 7명이 저술한 "LoRA: Low-Rank Adaptation of Large Language Models"라는 제목의 논문 PDF 파일을 보려면 여기를 클릭하십시오.</font></font></div><li><a href="https://arxiv.org/pdf/2106.09685" aria-describedby="download-button-info" accesskey="f" class="abs-button download-pdf"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">PDF 보기</font></font></a></li><li><a href="https://arxiv.org/html/2106.09685v2" class="abs-button" id="latexml-download-link"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">HTML (실험적 기능)</font></font></a></li><li><a href="https://arxiv.org/src/2106.09685" class="abs-button download-eprint"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">TeX 소스
+ </font></font></a></li></ul>
+      <div class="abs-license"><a href="http://arxiv.org/licenses/nonexclusive-distrib/1.0/" title="이 기사에 대한 권리"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">라이선스 보기</font></font></a></div>
+    </div>
+    <!--end full-text-->    <div class="browse"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+    현재 탐색 컨텍스트:</font></font><div class="current"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">cs.CL</font></font></div>
+
+  <div class="prevnext">
+<span class="arrow">
+      <a class="abs-button prev-url" href="https://arxiv.org/prevnext?id=2106.09685&amp;function=prev&amp;context=cs.CL" accesskey="p" title="cs.CL의 이전 (액세스 키 p)" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">&lt; 이전</font></font></a>
+    </span>
+    <span class="is-hidden-mobile"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> &nbsp; | &nbsp; </font></font></span>    <font dir="auto" style="vertical-align: inherit;"><span class="arrow"><a class="abs-button next-url" href="https://arxiv.org/prevnext?id=2106.09685&amp;function=next&amp;context=cs.CL" accesskey="n" title="next in cs.CL (accesskey n)" rel="nofollow"><font dir="auto" style="vertical-align: inherit;">다음 &gt;</font></a></span></font><span class="arrow">
+      <a class="abs-button next-url" href="https://arxiv.org/prevnext?id=2106.09685&amp;function=next&amp;context=cs.CL" accesskey="n" title="다음은 cs.CL(액세스 키 n)입니다." rel="nofollow"><font dir="auto" style="vertical-align: inherit;"></font></a>
+    </span><br>
+  </div><div class="list">
+    <a class="abs-button abs-button-grey abs-button-small context-new" href="https://arxiv.org/list/cs.CL/new" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">새로운 </font></font></a>
+    <span class="is-hidden-mobile"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">| </font></font></span>
+    <a class="abs-button abs-button-grey abs-button-small context-recent" href="https://arxiv.org/list/cs.CL/recent" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">최근 </font></font></a>
+    <span class="is-hidden-mobile"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">| </font></font></span><a class="abs-button abs-button-grey abs-button-small context-id" href="https://arxiv.org/list/cs.CL/2021-06" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">2021년 6월</font></font></a>
+  </div><div class="abs-switch-cat"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+    탐색 방식을 변경하세요:
+    </font></font><div class="switch context-change">
+        <a href="https://arxiv.org/abs/2106.09685?context=cs" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">cs </font></font></a><br class="is-hidden-mobile">
+        <a class="subclass" href="https://arxiv.org/abs/2106.09685?context=cs.AI" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">cs.AI </font></font></a><br class="is-hidden-mobile">
+        <a class="subclass" href="https://arxiv.org/abs/2106.09685?context=cs.LG" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">cs.LG</font></font></a><br class="is-hidden-mobile">
+    </div>
+  </div>
+
+    </div>
+      <div class="extra-ref-cite">
+        <h3><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">참고문헌 및 인용</font></font></h3>
+        <ul>
+          <li><a class="abs-button abs-button-small cite-ads" href="https://ui.adsabs.harvard.edu/abs/arXiv:2106.09685"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">NASA 광고</font></font></a></li><li><a class="abs-button abs-button-small cite-google-scholar" href="https://scholar.google.com/scholar_lookup?arxiv_id=2106.09685" target="_blank" rel="noopener"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">구글 학술 검색</font></font></a></li>
+          <li><a class="abs-button abs-button-small cite-semantic-scholar" href="https://api.semanticscholar.org/arXiv:2106.09685" target="_blank" rel="noopener"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">의미론 학자</font></font></a></li>
+        </ul>
+        <div style="clear:both;"></div>
+      </div>
+
+    <div class="extra-general">
+        <div class="what-is-this">
+            <h3><a class="abs-button abs-button-grey abs-button-small trackback-link" href="https://arxiv.org/tb/2106.09685"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">블로그 링크 12개</font></font></a></h3><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="https://info.arxiv.org/help/trackback.html" class="trackback-help"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">이게 뭔가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )
+        </font></font></div>
+    </div>
+<div class="dblp">
+    <h3><a href="https://dblp.uni-trier.de/"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DBLP</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> - CS 참고문헌</font></font></h3>
+    <div class="list">
+      <a href="https://dblp.uni-trier.de/db/journals/corr/corr2106.html#abs-2106-09685" title="DBLP에 상장됨"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">목록</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> | </font></font><a href="https://dblp.uni-trier.de/rec/bibtex/journals/corr/abs-2106-09685" title="DBLP 비브텍스 레코드"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">비브텍스</font></font></a>    </div>
+    <div class="list">
+<a href="https://dblp.uni-trier.de/search/author?author=Yelong%20Shen" title="DBLP 저자 검색"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">예롱 센 </font></font></a><br><a href="https://dblp.uni-trier.de/search/author?author=Phillip%20Wallis" title="DBLP 저자 검색"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">필립 월리스 </font></font></a><br><a href="https://dblp.uni-trier.de/search/author?author=Zeyuan%20Allen-Zhu" title="DBLP 저자 검색"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Zeyuan Allen-Zhu </font></font></a><br><a href="https://dblp.uni-trier.de/search/author?author=Yuanzhi%20Li" title="DBLP 저자 검색"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Yuanzhi Li </font></font></a><br><a href="https://dblp.uni-trier.de/search/author?author=Weizhu%20Chen" title="DBLP 저자 검색"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Weizhu Chen</font></font></a>    </div>
+  </div><div class="extra-ref-cite">
+    <span id="bib-cite-trigger" class="bib-cite-button abs-button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">BibTeX 인용 내보내기</font></font></span>
+    <span id="bib-cite-loading" hidden="true"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">로딩 중...</font></font></span>
+</div>
+
+<div id="bib-cite-modal" class="bib-modal" hidden="true">
+    <div class="bib-modal-content">
+        <div class="bib-modal-title">
+            <h2><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">BibTeX 형식의 인용</font></font></h2>
+            <span class="bib-modal-close"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">×</font></font></span>
+        </div>
+        <div>
+            <textarea id="bib-cite-target" class="bib-citation-content" aria-label="인용문 불러오기">loading...</textarea>
+        </div>
+        <div>
+            <span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">데이터 제공처:</font></font></span>
+            <a id="bib-cite-source-api"></a>
+        </div>
+    </div>
+</div><div class="bookmarks">
+  <div><h3><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">서표</font></font></h3></div><a class="abs-button abs-button-grey abs-button-small" href="http://www.bibsonomy.org/BibtexHandler?requTask=upload&amp;url=https://arxiv.org/abs/2106.09685&amp;description=LoRA:%20Low-Rank%20Adaptation%20of%20Large%20Language%20Models" title="BibSonomy에 북마크하기">
+    <img src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/bibsonomy.png" alt="BibSonomy 로고">
+  </a>
+  <a class="abs-button abs-button-grey abs-button-small" href="https://reddit.com/submit?url=https://arxiv.org/abs/2106.09685&amp;title=LoRA:%20Low-Rank%20Adaptation%20of%20Large%20Language%20Models" title="레딧에 북마크하기">
+    <img src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/reddit.png" alt="레딧 로고">
+  </a>
+</div>  </div>
+  <!--end extra-services-->
+<!-- LABS AREA -->
+<div id="labstabs">
+  <div class="labstabs"><input type="radio" name="tabs" id="tabone" checked="checked">
+    <label for="tabone"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">서지 도구</font></font></label>
+    <div class="tab labs-display-bib">
+      <h1><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">참고문헌 및 인용 도구</font></font></h1>
+      <div class="toggle">
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="bibex-toggle" type="checkbox" class="lab-toggle" data-script-url="/static/browse/0.3.4/bibex/bibex.js?20241202">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">서지 탐색기 토글</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-bibex"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">서지 탐색기 </font></font></span> <em><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="https://info.arxiv.org/labs/showcase.html#arxiv-bibliographic-explorer"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">탐색기란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )</font></font></em>
+          </div>
+        </div>
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="connectedpapers-toggle" type="checkbox" class="lab-toggle" data-script-url="/static/browse/0.3.4/js/connectedpapers.js" aria-labelledby="label-for-connected-papers">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">연결된 문서 토글</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-connected-papers"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">연결된 논문 </font></font></span> <em><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="https://www.connectedpapers.com/about" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">연결된 논문이란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )</font></font></em>
+          </div>
+        </div><div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="litmaps-toggle" type="checkbox" class="lab-toggle" data-script-url="/static/browse/0.3.4/js/litmaps.js?20210617" aria-labelledby="label-for-litmaps">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Litmaps 토글</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-litmaps"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Litmaps </font></font></span> <em><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="https://www.litmaps.co/" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Litmaps란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )</font></font></em>
+          </div>
+        </div>
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="scite-toggle" type="checkbox" class="lab-toggle" data-script-url="/static/browse/0.3.4/js/scite.js?20210617" aria-labelledby="label-for-scite">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">scite.ai 토글</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-scite"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">사이트 스마트 인용 </font></font></span> <em><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="https://www.scite.ai/" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">스마트 인용이란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )</font></font></em>
+          </div>
+        </div>
+      </div>
+        <div class="labs-content-placeholder labs-display" style="display: none;"></div>
+        <div style="min-height: 15px" id="connectedpapers-output"></div>
+        <div style="min-height: 15px" id="litmaps-open-in"></div>
+        <div style="min-height: 15px" id="scite-open-in"></div>
+    </div>
+
+
+    <input type="radio" name="tabs" id="tabtwo">
+    <label for="tabtwo"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">코드, 데이터, 미디어</font></font></label>
+    <div class="tab">
+      <h1><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">이 기사와 관련된 코드, 데이터 및 미디어</font></font></h1>
+      <div class="toggle">
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="alphaxiv-toggle" data-script-url="/static/browse/0.3.4/js/alphaxiv.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-alphaxiv">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">알파Xiv 토글</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-alphaxiv"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">alphaXiv </font></font></span> <em><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="https://alphaxiv.org/" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">alphaXiv란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )</font></font></em>
+          </div>
+        </div>
+
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="catalyzex-toggle" data-script-url="/static/browse/0.3.4/js/catalyzex.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-cx">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">코드 토글 링크</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-cx"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">논문용 CatalyzeX 코드 찾기 도구 </font></font></span> <em><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="https://www.catalyzex.com/" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">CatalyzeX란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )</font></font></em>
+          </div>
+        </div>
+
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="dagshub-toggle" data-script-url="/static/browse/0.3.4/js/dagshub.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-dagshub">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DagsHub 토글</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-dagshub"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DagsHub </font></font></span> <em><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="https://dagshub.com/" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DagsHub란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )</font></font></em>
+          </div>
+        </div>
+  
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="gotitpub-toggle" data-script-url="/static/browse/0.3.4/js/gotitpub.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-gotitpub">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">GotitPub 토글</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-gotitpub"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Gotit.pub </font></font></span> <em><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">( </font></font><a href="http://gotit.pub/faq" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">GotitPub이란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )</font></font></em>
+          </div>
+        </div>
+
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="huggingface-toggle" data-script-url="/static/browse/0.3.4/js/huggingface.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-huggingface">
+              <span class="slider"></span>
+              <span class="is-sr-only"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">포옹 얼굴 토글</font></font></span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-huggingface">Hugging Face</span> <em>(<a href="https://huggingface.co/huggingface" target="_blank">What is Huggingface?</a>)</em>
+          </div>
+        </div>
+
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="paperwithcode-toggle" data-script-url="/static/browse/0.3.4/js/paperswithcode.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-pwc">
+              <span class="slider"></span>
+              <span class="is-sr-only">Links to Code Toggle</span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-pwc">Papers with Code</span> <em>(<a href="https://paperswithcode.com/" target="_blank">What is Papers with Code?</a>)</em>
+          </div>
+        </div>
+
+
+        <div class="columns is-mobile lab-row">
+          <div class="column lab-switch">
+            <label class="switch">
+              <input id="sciencecast-toggle" data-script-url="/static/browse/0.3.4/js/sciencecast.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-sciencecast">
+              <span class="slider"></span>
+              <span class="is-sr-only">ScienceCast Toggle</span>
+            </label>
+          </div>
+          <div class="column lab-name">
+            <span id="label-for-sciencecast">ScienceCast</span> <em>(<a href="https://sciencecast.org/welcome" target="_blank">What is ScienceCast?</a>)</em>
+          </div>
+        </div>
+      </div>
+
+      <div id="alphaxiv-output" style="display:none"></div>
+      <div id="catalyzex-output" style="display:none"></div>
+      <div id="dagshub-output" style="display:none"></div>
+      <div id="gotitpub-output" style="display:none"></div>
+      <div id="pwc-output" style="display:none"></div>
+      <div id="pwc-data-output" style="display:none"></div>
+      <div id="sciencecast-output" style="display:none"></div>
+      <div id="huggingface-output" style="display:none"></div>
+    </div>
+
+
+      <input type="radio" name="tabs" id="labstabs-demos-input">
+      <label for="labstabs-demos-input" id="labstabs-demos-label"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">시민</font></font></label>
+      <div class="tab">
+        <h1>Demos</h1>
+        <div class="toggle">
+          <div class="columns is-mobile lab-row">
+            <div class="column lab-switch">
+              <label class="switch">
+                <input id="replicate-toggle" data-script-url="/static/browse/0.3.4/js/replicate.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-replicate">
+                <span class="slider"></span>
+                <span class="is-sr-only">Replicate Toggle</span>
+              </label>
+            </div>
+            <div class="column lab-name">
+              <span id="label-for-replicate">Replicate</span> <em>(<a href="https://replicate.com/docs/arxiv/about" target="_blank">What is Replicate?</a>)</em>
+            </div>
+          </div>
+          <div class="columns is-mobile lab-row">
+            <div class="column lab-switch">
+              <label class="switch">
+                <input id="spaces-toggle" data-script-url="/static/browse/0.3.4/js/spaces.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-spaces">
+                <span class="slider"></span>
+                <span class="is-sr-only">Spaces Toggle</span>
+              </label>
+            </div>
+            <div class="column lab-name">
+              <span id="label-for-spaces">Hugging Face Spaces</span> <em>(<a href="https://huggingface.co/docs/hub/spaces" target="_blank">What is Spaces?</a>)</em>
+            </div>
+          </div>
+          <div class="columns is-mobile lab-row">
+            <div class="column lab-switch">
+              <label class="switch">
+                <input id="txyz-toggle" data-script-url="/static/browse/0.3.4/js/txyz.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-txyz">
+                <span class="slider"></span>
+                <span class="is-sr-only">Spaces Toggle</span>
+              </label>
+            </div>
+            <div class="column lab-name">
+              <span id="label-for-txyz">TXYZ.AI</span> <em>(<a href="https://txyz.ai/" target="_blank">What is TXYZ.AI?</a>)</em>
+            </div>
+          </div>
+        </div>
+        <div id="replicate-output"></div>
+        <div id="spaces-output"></div>
+        <div id="txyz-output"></div>
+      </div>
+      <input type="radio" name="tabs" id="tabfour">
+      <label for="tabfour"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">관련 논문</font></font></label>
+      <div class="tab">
+        <h1>Recommenders and Search Tools</h1>
+        <div class="toggle">
+          <div class="columns is-mobile lab-row">
+            <div class="column lab-switch">
+              <label class="switch">
+                <input id="influenceflower-toggle" data-script-url="/static/browse/0.3.4/js/influenceflower.js" type="checkbox" class="lab-toggle" aria-labelledby="label-for-influenceflower">
+                <span class="slider"></span>
+                <span class="is-sr-only">Link to Influence Flower</span>
+              </label>
+            </div>
+            <div class="column lab-name">
+              <span id="label-for-influenceflower">Influence Flower</span> <em>(<a href="https://influencemap.cmlab.dev/" target="_blank">What are Influence Flowers?</a>)</em>
+            </div>
+          </div>
+          <div class="columns is-mobile lab-row">
+            <div class="column lab-switch">
+              <label class="switch">
+                <input id="core-recommender-toggle" type="checkbox" class="lab-toggle" aria-labelledby="label-for-core">
+                <span class="slider"></span>
+                <span class="is-sr-only">Core recommender toggle</span>
+              </label>
+            </div>
+            <div class="column lab-name">
+              <span id="label-for-core">CORE Recommender</span> <em>(<a href="https://core.ac.uk/services/recommender">What is CORE?</a>)</em>
+            </div>
+          </div></div>
+        <div id="influenceflower-output"></div>
+        <div id="influenceflower-output-graph" style="display:none">
+          <ul class="flower-tabs">
+            <li class="active"><a class="btn tab-btn" onclick="openTab(event, &#39;tab-author&#39;)">Author</a></li>
+            <li><a class="btn tab-btn" onclick="openTab(event, &#39;tab-venue&#39;)">Venue</a></li>
+            <li><a class="btn tab-btn" onclick="openTab(event, &#39;tab-inst&#39;)">Institution</a></li>
+            <li><a class="btn tab-btn" onclick="openTab(event, &#39;tab-topic&#39;)">Topic</a></li>
+          </ul>
+          <div class="flower-tab-content">
+            <div class="tab-flower active" id="tab-author"><svg id="flower-graph-author"></svg></div>
+            <div class="tab-flower" id="tab-venue"><svg id="flower-graph-venue"></svg></div>
+            <div class="tab-flower" id="tab-inst"><svg id="flower-graph-inst"></svg></div>
+            <div class="tab-flower" id="tab-topic"><svg id="flower-graph-topic"></svg></div>
+          </div>
+        </div>
+        <div id="coreRecommenderOutput"></div>
+        <div id="iarxivOutput"></div>
+      </div>
+
+      <input type="radio" name="tabs" id="tabfive">
+      <label for="tabfive"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+        arXivLabs 소개
+      </font></font></label>
+      <div class="tab">
+        <div class="columns">
+          <div class="column">
+            <h1>arXivLabs: experimental projects with community collaborators</h1>
+            <p>arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.</p>
+            <p>Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.</p>
+            <p>Have an idea for a project that will add value for arXiv's community? <a href="https://info.arxiv.org/labs/index.html"><strong>Learn more about arXivLabs</strong></a>.</p>
+          </div>
+          <div class="column is-narrow is-full-mobile">
+            <p class="icon-labs"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 635.572 811"><path d="M175.6 676v27h-27v-27zm-54 27v27h27v-27zm-27 27v27h27v-27zm396-54v27h-27v-27zm0 27v27h27v-27zm27 27v27h27v-27zm-27-414h27v27h-27zm27 0h27v-27h-27zm27-27h27v-27h-27zm-396 45h-27v-27h27zm-27-54h-27v27h27zm-27-27h-27v27h27z"></path><path d="M94.6 730v27h-27v-27zm477 0v27h-27v-27zm-27-495h27v27h-27zm-450 18h-27v-27h27zm477 9h27v27h-27zm-54 495h27v27h-27zm-423 0h27v27h-27zm-54-504h27v27h-27z" fill="#666"></path><path d="M67.6 730v27h-27v-27zm54 54v27h-27v-27zm0-108v27h27v-27zm-27 27v27h27v-27zm-81 0v27h27v-27zm585 27v27h-27v-27zm-108-54v27h27v-27zm27 27v27h27v-27zm81 0v27h27v-27zm-54-495h27v27h-27zm-54 108h27v-27h-27zm27-27h27v-27h-27zm0-81h27v-27h-27zm-423 18h-27v-27h27zm54 54h-27v27h27zm-27-27h-27v27h27zm0-81h-27v27h27zm423 612v27h-27v-27zm81-522v27h-27v-27zm-585-9v27h-27v-27z" fill="#999"></path><path d="M94.6 784v27h-27v-27zm-27-27v27h27v-27zm-27-54v27h27v-27zm27 0v27h27v-27zm0-27v27h27v-27zm27 0v27h27v-27zm0-27v27h27v-27zm27 0v27h27v-27zm-108 81v27h27v-27zm558 54v27h-27v-27zm-27-27v27h27v-27zm27-54v27h27v-27zm-27 0v27h27v-27zm0-27v27h27v-27zm-27 0v27h27v-27zm0-27v27h27v-27zm-27 0v27h27v-27zm108 81v27h27v-27zm0-495h27v27h-27zm-27 27h27v-27h-27zm-54-27h27v-27h-27zm0 27h27v-27h-27zm-27 0h27v-27h-27zm0 27h27v-27h-27zm-27 0h27v-27h-27zm0 27h27v-27h-27zm81-108h27v-27h-27zm-504 45h-27v-27h27zm27-27h-27v27h27zm54-27h-27v27h27zm0 27h-27v27h27zm27 0h-27v27h27zm0 27h-27v27h27zm27 0h-27v27h27zm0 27h-27v27h27zm-81-108h-27v27h27z" fill="#ccc"></path><path d="M598.6 665.1H41.5C-76.5 667 176 280.2 176 280.2h53a46.5 46.5 0 0162.8-56.3 29.2 29.2 0 1128.5 35.9h-1a46.5 46.5 0 01-1.5 20.3l142.5-.1s255.3 387 138.3 385.1zM291 181a29.3 29.3 0 10-29.2-29.3A29.3 29.3 0 00291 181zm65.4-66.8a22.4 22.4 0 10-22.5-22.4 22.4 22.4 0 0022.5 22.4z" fill="#fc0"></path><path d="M245.5 172V10h153v162s324 495 198 495h-558c-126 0 207-495 207-495zm126 54h56m-13 72h56m-9 72h56m-20 72h56m-22 72h56m-29 72h56m-457-45c20.8 41.7 87.3 81 160.7 81 72.1 0 142.1-38.2 163.4-81" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="20"></path><path d="M273.3 421.7c0 31-9.8 56.3-21.9 56.3s-21.8-25.2-21.8-56.3 9.8-56.3 21.8-56.3 21.9 25.2 21.9 56.3zm114.4-56.3c-12 0-21.8 25.2-21.8 56.3s9.7 56.3 21.8 56.3 21.9-25.2 21.9-56.3-9.8-56.3-21.9-56.3zM150.1 526.6c-18.2 6.7-27.5 22.9-23.2 30.2s14.8-5.5 33-12.2 37.4-4.9 33-12.2-24.5-12.6-42.8-5.8zm296 5.8c-4.2 7.3 14.9 5.5 33.1 12.2s28.7 19.5 33 12.2-5-23.5-23.2-30.2-38.5-1.5-42.8 5.8z"></path></svg></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</div>
+<!-- END LABS AREA -->
+  <div class="endorsers">
+    <a href="https://arxiv.org/auth/show-endorsers/2106.09685" class="endorser-who" rel="nofollow"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">이 논문의 저자 중 누가 지지자인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> |
+     </font></font><a id="mathjax_toggle" href="javascript:setMathjaxCookie()"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">MathJax 비활성화</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> ( </font></font><a href="https://info.arxiv.org/help/mathjax.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">MathJax란 무엇인가요?</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> )
+    </font></font><span class="help" style="font-style: normal; float: right; margin-top: 0; margin-right: 1em;"></span>
+  </div>
+  <script type="text/javascript" language="javascript">mathjaxToggle();</script>
+</div>
+      </div>
+    </main>
+
+    <footer style="clear: both;">
+      <div class="columns is-desktop" role="navigation" aria-label="반성" style="margin: -0.75em -0.75em 0.75em -0.75em">
+        <!-- Macro-Column 1 -->
+        <div class="column" style="padding: 0;">
+          <div class="columns">
+            <div class="column">
+              <ul style="list-style: none; line-height: 2;">
+                <li><a href="https://info.arxiv.org/about"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">에 대한</font></font></a></li>
+                <li><a href="https://info.arxiv.org/help"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">돕다</font></font></a></li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul style="list-style: none; line-height: 2;">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon filter-black" role="presentation"><title>contact arXiv</title><desc>Click here to contact arXiv</desc><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path></svg>
+                  <a href="https://info.arxiv.org/help/contact.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">연락하다</font></font></a>
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon filter-black" role="presentation"><title>subscribe to arXiv mailings</title><desc>Click here to subscribe</desc><path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path></svg>
+                  <a href="https://info.arxiv.org/help/subscribe"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">구독하다</font></font></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- End Macro-Column 1 -->
+        <!-- Macro-Column 2 -->
+        <div class="column" style="padding: 0;">
+          <div class="columns">
+            <div class="column">
+              <ul style="list-style: none; line-height: 2;">
+                <li><a href="https://info.arxiv.org/help/license/index.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">저작권</font></font></a></li>
+                <li><a href="https://info.arxiv.org/help/policies/privacy_policy.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">개인정보 보호정책</font></font></a></li>
+              </ul>
+            </div>
+            <div class="column sorry-app-links">
+              <ul style="list-style: none; line-height: 2;">
+                <li><a href="https://info.arxiv.org/help/web_accessibility.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">웹 접근성 지원</font></font></a></li>
+                <li>
+                  <p class="help">
+                    <a class="a11y-main-link" href="https://status.arxiv.org/" target="_blank"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">arXiv 운영 상태</font></font><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="icon filter-dark_grey" role="presentation"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg></a><br>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div> <!-- end MetaColumn 2 -->
+        <!-- End Macro-Column 2 -->
+      </div>
+    </footer>
+  </div>
+
+  <script src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/member_acknowledgement.js"></script><div id="goog-gt-tt" class="VIpgJd-yAWNEb-L7lbkb skiptranslate" style="border-radius: 12px; margin: 0 0 0 -23px; padding: 0; font-family: &#39;Google Sans&#39;, Arial, sans-serif;" data-id=""><div id="goog-gt-vt" class="VIpgJd-yAWNEb-hvhgNd"><div class="VIpgJd-yAWNEb-hvhgNd-Ud7fr"><img src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/24px.svg" width="24" height="24" alt=""><div class=" VIpgJd-yAWNEb-hvhgNd-IuizWc-i3jM8c " dir="ltr">원본 텍스트</div></div><div class="VIpgJd-yAWNEb-hvhgNd-k77Iif"><div id="goog-gt-original-text" class="VIpgJd-yAWNEb-nVMfcd-fmcmS VIpgJd-yAWNEb-hvhgNd-axAV1"></div></div><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid ltr"><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid-B7I4Od ltr" dir="ltr"><div class="VIpgJd-yAWNEb-hvhgNd-UTujCb">번역 평가</div><div class="VIpgJd-yAWNEb-hvhgNd-eO9mKe">보내주신 의견은 Google 번역을 개선하는 데 사용됩니다.</div></div><div class="VIpgJd-yAWNEb-hvhgNd-xgov5 ltr"><button id="goog-gt-thumbUpButton" type="button" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" title="번역 품질 좋음" aria-label="번역 품질 좋음" aria-pressed="false"><span id="goog-gt-thumbUpIcon"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7H2v13h16c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM7 18H4V9h3v9zm14-7l-3 7H9V8l4.34-4.34L12 9h9v2z"></path></svg></span><span id="goog-gt-thumbUpIconFilled"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7v13h11c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM5 7H1v13h4V7z"></path></svg></span></button><button id="goog-gt-thumbDownButton" type="button" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" title="번역 품질 좋지 않음" aria-label="번역 품질 좋지 않음" aria-pressed="false"><span id="goog-gt-thumbDownIcon"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7h5V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zM17 6h3v9h-3V6zM3 13l3-7h9v10l-4.34 4.34L12 15H3v-2z"></path></svg></span><span id="goog-gt-thumbDownIconFilled"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zm16 0h4V4h-4v13z"></path></svg></span></button></div></div><div id="goog-gt-votingHiddenPane" class="VIpgJd-yAWNEb-hvhgNd-aXYTce"><form id="goog-gt-votingForm" action="https://translate.googleapis.com/translate_voting?client=te_lib" method="post" target="votingFrame" class="VIpgJd-yAWNEb-hvhgNd-aXYTce"><input type="text" name="sl" id="goog-gt-votingInputSrcLang"><input type="text" name="tl" id="goog-gt-votingInputTrgLang"><input type="text" name="query" id="goog-gt-votingInputSrcText"><input type="text" name="gtrans" id="goog-gt-votingInputTrgText"><input type="text" name="vote" id="goog-gt-votingInputVote"></form><iframe name="votingFrame" frameborder="0" src="./[2106.09685] LoRA_ 대규모 언어 모델의 저랭크 적응_files/saved_resource.html"></iframe></div></div></div>
+
+
+
+<div class="ap-ext ap-ext-taobao_search_by_image"><div translate="no" class="ap-base ap-base--ltr ap-theme--dark"><div><div class="ap-toolbar ap-toolbar--left ap-toolbar--expand"><!----><div class="ap-toolbar__inner"><!----></div></div></div><!----><div><!----><div class="ap-sbi"><!----><div class="ap-sbi-aside"><!----><div class="ap-sbi-aside-btn-minimize" style="display: none;"><img src="https://arxiv.org/abs/2106.09685" class="ap-sbi-img-thumb"><i class="ap-sbi-aside-btn-minimize__icon ap-icon-chevron-right"></i></div><!----></div><!----><div class="ap-sbi-btn-search-wrapper" style="cursor: pointer; display: none;"><div class="ap-sbi-btn-search"><i class="ap-sbi-btn-search__icon ap-icon-search"></i><span class="ap-sbi-btn-search__txt">AiPrice</span></div><div class="ap-sbi-options"><div class="ap-sbi-options__label"><i class="ap-sbi-options__icon ap-icon-chevron-down"></i></div><!----></div></div></div><div><!----></div></div><div></div><div></div><div></div><!----><!----><!----><div></div><div></div><!----><!----></div></div></body></html>
